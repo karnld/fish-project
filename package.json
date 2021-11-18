@@ -3,10 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./dist-server/bin/www",
-    "dev": "babel-watch ./server/bin/www",
-    "clean": "rimraf dist-server",
-    "build": "npm run clean & babel ./server --out-dir dist-server --copy-files"
+    "start": "cross-env NODE_ENV=production node ./dist-server/bin/www",
+    "dev": "cross-env NODE_ENV=development babel-watch --watch ./server/views ./server/bin/www",
+    "w:s": "cross-env NODE_ENV=development webpack serve --config ./webpack.dev.config.js --mode development",
+    "cleans": "rimraf dist-server",
+    "cleanc": "rimraf public/js",
+    "b:s": "npm run cleans & babel ./server --out-dir dist-server --copy-files",
+    "b:c": " npm run cleanc & webpack --config ./webpack.config.js --mode production",
+    "build": "npm run b:c & npm run b:s"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -22,9 +26,18 @@
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-preset-minify": "^0.5.1",
     "babel-watch": "^7.6.0",
-    "cross-env": "^7.0.3"
+    "core-js": "^3.19.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.4.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-middleware": "^5.2.2",
+    "webpack-dev-server": "^4.5.0",
+    "webpack-hot-middleware": "^2.25.1"
   }
 }
